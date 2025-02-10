@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class Knight : AgentObject
+public class monster : AgentObject
 {
     [SerializeField] float movementSpeed;
     [SerializeField] float rotationSpeed;
@@ -17,7 +16,7 @@ public class Knight : AgentObject
     new void Start() // Note the new.
     {
         base.Start(); // Explicitly invoking Start of AgentObject.
-        Debug.Log("Starting Knight.");
+        Debug.Log("Starting Princess.");
         rb = GetComponent<Rigidbody2D>();
     }
 

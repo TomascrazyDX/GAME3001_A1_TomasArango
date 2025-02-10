@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Knight : AgentObject
+public class Avoid : AgentObject
 {
     [SerializeField] float movementSpeed;
     [SerializeField] float rotationSpeed;
@@ -75,7 +75,7 @@ public class Knight : AgentObject
         Vector2 directionToTarget = (TargetPosition - transform.position).normalized;
 
         // Calculate the angle to rotate towards the target.
-        Vector2 desiredVelocity = directionToTarget * movementSpeed;
+        Vector2 desiredVelocity = directionToTarget * -movementSpeed;
 
         Vector2 steeringForce = desiredVelocity - rb.velocity;
 

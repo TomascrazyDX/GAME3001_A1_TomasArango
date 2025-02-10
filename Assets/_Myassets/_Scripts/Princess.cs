@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class Knight : AgentObject
+public class Princess : AgentObject
 {
     [SerializeField] float movementSpeed;
     [SerializeField] float rotationSpeed;
@@ -17,7 +16,7 @@ public class Knight : AgentObject
     new void Start() // Note the new.
     {
         base.Start(); // Explicitly invoking Start of AgentObject.
-        Debug.Log("Starting Knight.");
+        Debug.Log("Starting Princess.");
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -75,22 +74,17 @@ public class Knight : AgentObject
         Vector2 directionToTarget = (TargetPosition - transform.position).normalized;
 
         // Calculate the angle to rotate towards the target.
-        Vector2 desiredVelocity = directionToTarget * movementSpeed;
+        float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg + 90.0f; // Note the +90 when converting from Radians.
 
-        Vector2 steeringForce = desiredVelocity - rb.velocity;
+        // Smoothly rotate towards the target.
+        float angleDifference = Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z);
+        float rotationStep = rotationSpeed * -Time.deltaTime;
+        float rotationAmount = Mathf.Clamp(angleDifference, -rotationStep, rotationStep);
+        transform.Rotate(Vector3.forward, rotationAmount);
 
-        rb.AddForce(steeringForce);
+        // Move along the forward vector using Rigidbody2D.
+        rb.velocity = transform.up * movementSpeed;
     }
-
-    //    // Smoothly rotate towards the target.
-    //    float angleDifference = Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z);
-    //    float rotationStep = rotationSpeed * Time.deltaTime;
-    //    float rotationAmount = Mathf.Clamp(angleDifference, -rotationStep, rotationStep);
-    //    transform.Rotate(Vector3.forward, rotationAmount);
-
-    //    // Move along the forward vector using Rigidbody2D.
-    //    rb.velocity = transform.up * movementSpeed;
-    //}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
